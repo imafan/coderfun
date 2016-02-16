@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="ShoppingModule">
+<head>
+    <meta charset="UTF-8">
+    <title>server-angularjs</title>
+    <script src="/js/angular/1.0.4/angular.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div ng-controller="ShoppingController">
+    <h2>{{msg}}</h2>
+    <ul>
+        <li ng-repeat="item in items">
+            <a href="#" >{{$index+1}}、{{item.name}}</a>
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    var shoppingModule = angular.module("ShoppingModule",[]);
+    shoppingModule.factory("Items",function(){
+        var items = {};
+        items.query = function(){
+            return [
+                {name: "test1",price: 11},
+                {name: "test2",price: 11},
+                {name: "test3",price: 11}
+            ];
+        };
+
+        items.msg = "test";
+
+        return items;
+    });
+
+
+    function ShoppingController(Items, $scope) {
+
+        $scope.items = Items.query();
+        $scope.msg = Items.msg;
+    }
+
+</script>
+</body>
+</html>

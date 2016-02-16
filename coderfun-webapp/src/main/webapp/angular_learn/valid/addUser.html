@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="/js/angular/1.0.4/angular.js" type="text/javascript"></script>
+</head>
+<body>
+    <h1>Sign up</h1>
+    <form name="addUserForm" ng-controller="AddUserController">
+        <div ng-show="message">{{message}}</div>
+        <div>First name：<input name="firstName" ng-model="user.first" required></div>
+        <div>Last name: <input ng-model="user.last" required> </div>
+        <div>Email: <input type="email" ng-model="user.email" required> </div>
+        <div>Age: <input type="number" ng-model="user.age" ng-maxlength="3" ng-min="1"> </div>
+        <div><button ng-click="addUser()" ng-disabled="!addUserForm.$valid">Submit</button> </div>
+
+
+
+    </form>
+</body>
+<script type="text/javascript">
+
+    function AddUserController($scope){
+        $scope.message = "";
+        $scope.addUser = function(){
+            $scope.message = "ssss:" + $scope.user.first ;
+        }
+    }
+</script>
+</html>

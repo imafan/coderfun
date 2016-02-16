@@ -16,6 +16,8 @@
     <modules>
         <module>coderfun-webapp</module>
         <module>coderfun-service</module>
+        <module>coderfun-utils</module>
+        <module>coderfun-base-jfinal</module>
     </modules>
 
     <dependencies>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="">
+<head>
+    <meta charset="UTF-8">
+    <title>hello-angularjs</title>
+    <script src="/js/angular/1.0.4/angular.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div ng-controller="StudentListController">
+    <ul>
+        <li ng-repeat="student in students">
+            <a href="#" >{{$index+1}}、{{student.name}}</a>
+        </li>
+    </ul>
+
+    <button ng-click="insertTom()" >insert</button>
+</div>
+
+<br/>
+
+<h2>改变样式</h2>
+<div ng-controller="DeathrayMenuController">
+    单击 <i class="menu-disabled-{{isDisabled}}" ng-click="stun()">test</i> 改变颜色
+</div>
+<style type="text/css">
+    .menu-disabled-true {
+        color: blue;
+    }
+
+    .menu-disabled-false {
+        color: red;
+    }
+</style>
+<script type="text/javascript">
+    var students = [
+        {name:"test1",id:1},
+        {name:"test2",id:2}
+    ];
+
+    function StudentListController($scope){
+        $scope.students = students;
+        $scope.insertTom = function(){
+            console.info("test");
+            $scope.students.splice(1,0,{name:"Tom",id:3});
+        }
+    }
+
+    function DeathrayMenuController($scope){
+        $scope.isDisabled = false;
+        $scope.stun = function(){
+            $scope.isDisabled = !$scope.isDisabled;
+        }
+    }
+
+</script>
+</body>
+</html>
