@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="HomeModule">
+<head>
+    <meta charset="UTF-8">
+    <title>首字母大写过滤器</title>
+    <script src="/js/angular/1.0.4/angular.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div ng-controller="HomeController">
+    <h1>{{pageHeading | titleCase}}</h1>
+</div>
+
+<script type="text/javascript">
+    var homeModule = angular.module("HomeModule",[]);
+    homeModule.filter("titleCase",function(){
+        var titleCaseFilter = function(input){
+            var words = input.split(" ");
+            for(var i = 0; i < words.length; i++){
+                words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+            }
+            return words.join(" ");
+        };
+
+        return titleCaseFilter;
+    })
+
+    function HomeController($scope){
+        $scope.pageHeading = "abc def";
+    }
+</script>
+</body>
+</html>

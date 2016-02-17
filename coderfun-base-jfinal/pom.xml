@@ -47,6 +47,12 @@
             <artifactId>jfinal-quartz</artifactId>
             <version>0.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>cn.dreampie</groupId>
+            <artifactId>jfinal-web</artifactId>
+            <version>0.2</version>
+        </dependency>
         <!--end jfinal 相关包-->
 
         <dependency>

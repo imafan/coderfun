@@ -3,6 +3,8 @@ package org.coderfun.base;
 import cn.dreampie.quartz.QuartzPlugin;
 import cn.dreampie.tablebind.SimpleNameStyles;
 import cn.dreampie.tablebind.TableBindPlugin;
+import cn.dreampie.web.handler.ResourceHandler;
+import cn.dreampie.web.handler.xss.AttackHandler;
 import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.wall.WallFilter;
 import com.jfinal.config.*;
@@ -82,7 +84,10 @@ public class BaseConfig extends JFinalConfig {
     public void configHandler(Handlers me) {
         me.add(new DruidStatViewHandler("/druid"));
 //        me.add(new AngularJSHandler());
-        me.add(new UrlSkipHandler(".+\\.\\w{1,4}", false));
+//        me.add(new UrlSkipHandler(".+\\.\\w{1,4}", false));
+        me.add(new ResourceHandler("/javascript/**", "/images/**", "/css/**", "/lib/**", "/**/*.html"));
+        //防xss攻击
+        me.add(new AttackHandler());
     }
 
     @Override
