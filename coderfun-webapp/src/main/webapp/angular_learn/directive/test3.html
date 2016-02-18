@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>directive-angularjs</title>
+    <script src="/js/angular/1.0.4/angular.js" type="text/javascript"></script>
+    <style>
+        .expander{
+            border: 1px solid black;
+            width: 250px;
+        }
+        .expander > .title{
+            background-color: black;
+            color: white;
+            padding: .1em .3em;
+            cursor: pointer;
+        }
+        .expander > .body{
+            padding: .1em .3em;
+        }
+
+        .closed{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div ng-controller="SomeController">
+    <accordion>
+        <expander class="expander" ng-repeat="expander in expanders" expander-title="expander.title">
+            {{expander.text}}
+        </expander>
+    </accordion>
+
+</div>
+
+
+
+<script type="text/javascript">
+    var appModule = angular.module("myApp",[]);
+    appModule.directive("accordion",function(){
+       return {
+           restrict: "EA",
+           replace: true,
+           transclude: true,
+           template:"<div ng-transclude></div>",
+           controller: function(){
+               var expanders = [];
+               this.gotOpened = function(selectedExpander){
+                   angular.forEach(expanders,function(expander){
+                       if(selectedExpander != expander){
+                           expander.showMe = false;
+                       }
+                   })
+               }
+
+               this.addExpander = function(expander){
+                   expanders.push(expander);
+               }
+           }
+       }
+    });
+    appModule.directive("expander",function(){
+        return {
+            restrict: "EA",
+            transclude: true,
+            require: "^?accordion",
+            scope: { title:'=expanderTitle'},
+            template: "<div>" +
+                      "<div class='title' ng-click='toggle()'>{{title}}</div>" +
+                      "<div class='body' ng-show='showMe' ng-transclude></div>" +
+                      "</div>",
+            replace: true,
+            link: function(scope,element,attrs){
+                scope.showMe = false;
+                accordionController.addExpander(scope);
+
+                scope.toggle = function toggle(){
+                    scope.showMe = !scope.showMe;
+                    accordionController.gotOpened(scope);
+                }
+            }
+        }
+    })
+
+    function SomeController($scope){
+        $scope.expanders = [
+            {
+                "title": "click me to expand",
+                "text": "111"
+            },
+            {
+                "title": "click me to expand2",
+                "text": "222"
+            },
+            {
+                "title": "click me to expand3",
+                "text": "333"
+            }
+        ]
+    }
+</script>
+</body>
+</html>
