@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head lang="en" ng-app>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="/app/styles/bootstrap.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="panel panel-primary">
+     <div class="panel-heading">
+         <div class="panel-title">双向数据绑定</div>
+     </div>
+     <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">
+                            邮箱
+                        </label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="email" placeholder="请输入邮箱地址">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">
+                            密码
+                        </label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="password" placeholder="请输入密码">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <div class="checkbox">
+                                <label>
+                                      <input type="checkbox" >自动登录
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+     </div>
+</div>
+
+<script src="/app/vendor/angular-1.3.16/angular.js" type="javascript"></script>
+<script src="/app/scripts/controller/form.js" type="javascript"></script>
+</body>
+</html>
