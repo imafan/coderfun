@@ -64,6 +64,7 @@
     appModule.directive("expander",function(){
         return {
             restrict: "EA",
+            replace: true,
             transclude: true,
             require: "^?accordion",
             scope: { title:'=expanderTitle'},
@@ -71,8 +72,8 @@
                       "<div class='title' ng-click='toggle()'>{{title}}</div>" +
                       "<div class='body' ng-show='showMe' ng-transclude></div>" +
                       "</div>",
-            replace: true,
-            link: function(scope,element,attrs){
+
+            link: function(scope,element,attrs,accordionController){
                 scope.showMe = false;
                 accordionController.addExpander(scope);
 
