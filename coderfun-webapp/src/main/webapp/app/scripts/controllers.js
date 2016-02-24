@@ -10,7 +10,7 @@ define(['angular', 'services'], function (angular) {
         }])
         // More involved example where controller is required from an external file
         .controller('MyCtrl2', ['$scope', '$injector', function($scope, $injector) {
-            require(['controllers/myctrl2'], function(myctrl2) {
+            require(['controllers/myCtrl2'], function(myctrl2) {
                 // injector method takes an array of modules as the first argument
                 // if you want your controller to be able to use components from
                 // any of your other modules, make sure you include it together with 'ng'
