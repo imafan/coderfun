@@ -8,13 +8,15 @@
 <body>
 
 
-<hello-test></hello-test>
+<hello-test>11</hello-test>
+
+<div hello-test></div>
 
 <script type="text/javascript">
     var appModule = angular.module("myApp",[]);
     appModule.directive("helloTest",function(){
         return {
-            restrict: "E",
+            restrict: "A",
             template: "<div>Hi,要以驼峰法定义指令</div>",
             replace: true
         }
