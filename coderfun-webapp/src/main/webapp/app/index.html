@@ -5,15 +5,37 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
 </head>
 <body>
 <h1>AngularJS + RequireJS</h1>
 <ul>
     <li><a href="#/view1">View 1</a></li>
     <li><a href="#/view2">View 2</a></li>
+    <li><a href="#/view3">View 3</a></li>
 </ul>
 <div ng-view></div>
 
 <script src="/app/scripts/vendor/require.js" data-main="/app/scripts/main"></script>
+<script type="text/javascript">
+    /*js测试：判断 this 指向谁，看执行时而非定义时，只要函数(function)没有绑定在对象上调用，它的 this 就是 window。
+    var x = 10;
+    function func() {
+        alert(this.x)
+    };
+    var obj = {
+        x: 20,
+        fn: function() {
+            alert(this.x)
+        }
+    };
+    var fn = obj.fn;
+    func(); // 10
+    fn(); // 10
+    obj.fn();*/
+</script>
 </body>
 </html>
