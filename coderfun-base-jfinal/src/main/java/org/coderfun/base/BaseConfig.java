@@ -1,6 +1,7 @@
 package org.coderfun.base;
 
 import cn.dreampie.quartz.QuartzPlugin;
+import cn.dreampie.routebind.RouteBind;
 import cn.dreampie.tablebind.SimpleNameStyles;
 import cn.dreampie.tablebind.TableBindPlugin;
 import cn.dreampie.web.handler.ResourceHandler;
@@ -31,7 +32,7 @@ public class BaseConfig extends JFinalConfig {
     }
 
     public void configRoute(Routes me) {
-
+        me.add(new RouteBind());
     }
 
     public void configPlugin(Plugins me) {

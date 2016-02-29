@@ -11,5 +11,11 @@
     <packaging>jar</packaging>
     <artifactId>coderfun-service</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>coderfun</groupId>
+            <artifactId>coderfun-base-jfinal</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
