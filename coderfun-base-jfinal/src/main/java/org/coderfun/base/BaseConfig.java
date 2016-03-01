@@ -1,22 +1,18 @@
 package org.coderfun.base;
 
-import cn.dreampie.quartz.QuartzPlugin;
-import cn.dreampie.routebind.RouteBind;
-import cn.dreampie.tablebind.SimpleNameStyles;
-import cn.dreampie.tablebind.TableBindPlugin;
+
 import cn.dreampie.web.handler.ResourceHandler;
 import cn.dreampie.web.handler.xss.AttackHandler;
 import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.wall.WallFilter;
 import com.jfinal.config.*;
-import com.jfinal.ext.handler.UrlSkipHandler;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
+import com.jfinal.ext.plugin.tablebind.AutoTableBindPlugin;
+import com.jfinal.ext.plugin.tablebind.SimpleNameStyles;
 import com.jfinal.log.Logger;
-import com.jfinal.plugin.activerecord.CaseInsensitiveContainerFactory;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.druid.DruidStatViewHandler;
-import com.jfinal.plugin.ehcache.EhCachePlugin;
-import org.coderfun.handler.AngularJSHandler;
+import org.coderfun.controllers.user.UserController;
 import org.coderfun.interceptor.AuthInterceptor;
 
 
@@ -32,7 +28,16 @@ public class BaseConfig extends JFinalConfig {
     }
 
     public void configRoute(Routes me) {
-        me.add(new RouteBind());
+        /*AutoBindRoutes abr = new AutoBindRoutes();
+        abr.includeAllJarsInLib(true);
+        me.add(abr);
+*/
+        me.add("/user", UserController.class);
+
+
+
+
+
     }
 
     public void configPlugin(Plugins me) {
@@ -50,24 +55,29 @@ public class BaseConfig extends JFinalConfig {
         dp.addFilter(wallDefault);
         me.add(dp);
 
-
+//        ActiveRecordPlugin ap = new ActiveRecordPlugin(dp);
+//        me.add(ap);
+//
+//        ap.addMapping("t_user", User.class);
         /**
          * 配置扫描model
          */
-        //Model自动绑定表插件
-        TableBindPlugin tableBindDefault = new TableBindPlugin(dp, SimpleNameStyles.LOWER);
-        tableBindDefault.setContainerFactory(new CaseInsensitiveContainerFactory(true)); //忽略字段大小写
-        //排除或者引入包
-        //tableBindDefault.addExcludePaths("cn.dreampie.function.shop");
-        //tableBindDefault.addIncludePaths("cn.dreampie.function.default");
-        tableBindDefault.setShowSql(getPropertyToBoolean("devMode", false));
-        //非mysql的数据库方言
-        //tableBindDefault.setDialect(new AnsiSqlDialect());
-        me.add(tableBindDefault);
+        String test = "org/test";
+        System.out.println("test:" + test.startsWith("org\\test"));
+        AutoTableBindPlugin arp = new AutoTableBindPlugin(dp, SimpleNameStyles.LOWER);
+//        String listPath = PathKit.getRootClassPath().substring(0, PathKit.getRootClassPath().lastIndexOf("\\")) + File.separator + "coderfun-webapp" + File.separator + "WEB-INF" + File.separator + "lib";
+//        System.out.println(listPath);
+        arp.includeAllJarsInLib(true);
+        arp.addScanPackages("org.coderfun.models");
+        //指定需要扫描的包名
+//        arp.addScanPackages("org.coderfun.model");
+//        arp.libDir(listPath);
+        me.add(arp);
+
 
 //        me.add(new EhCachePlugin());
 
-        me.add(new QuartzPlugin());
+//        me.add(new QuartzPlugin());
 
         /*   // 用于缓存bbs模块的redis服务
         RedisPlugin bbsRedis = new RedisPlugin("bbs", "localhost");

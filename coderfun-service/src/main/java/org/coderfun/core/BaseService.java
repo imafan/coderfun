@@ -1,6 +1,7 @@
-package org.coderfun.base;
+package org.coderfun.core;
 
-import cn.dreampie.tablebind.TableBind;
+
+import com.jfinal.ext.plugin.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import org.apache.commons.lang.StringUtils;
@@ -31,7 +32,7 @@ public class BaseService<T extends Model> {
         {
             tableName = entityClass.getSimpleName();
         }
-        System.out.println("tableName:" + tableName);
+//        System.out.println("tableName:" + tableName);
     }
 
 /*    private static class SingletonHolder{

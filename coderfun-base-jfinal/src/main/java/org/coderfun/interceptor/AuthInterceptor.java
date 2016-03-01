@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
+import com.jfinal.core.JFinal;
+import com.jfinal.kit.PathKit;
 import org.apache.commons.lang.StringUtils;
 import org.coderfun.utils.RequestUtils;
 
@@ -18,8 +20,16 @@ public class AuthInterceptor implements Interceptor {
 
 
     public void intercept(Invocation invocation) {
-        HttpServletRequest request = invocation.getController().getRequest();
 
+        HttpServletRequest request = invocation.getController().getRequest();
+        System.out.println("getContextPath:" + request.getContextPath());
+        System.out.println("getServletPath:" + request.getServletPath());
+        System.out.println("getRequestURI:" + request.getRequestURI());
+        System.out.println("getRequestURL:" + request.getRequestURL());
+        System.out.println("realPath:" + JFinal.me().getServletContext().getRealPath(""));
+        System.out.println("getPackagePath:" + PathKit.getPackagePath(this));
+        System.out.println("getWebRootPath:" + PathKit.getWebRootPath());
+        System.out.println("getRootClassPath:" + PathKit.getRootClassPath());
         String path = request.getServletPath();
         boolean isAjax = false;
 
