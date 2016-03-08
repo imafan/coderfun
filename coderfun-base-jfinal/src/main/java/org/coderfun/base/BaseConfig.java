@@ -7,13 +7,10 @@ import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.wall.WallFilter;
 import com.jfinal.config.*;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
-
-
 import com.jfinal.ext.plugin.tablebind.SimpleNameStyles;
 import com.jfinal.log.Logger;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.druid.DruidStatViewHandler;
-import org.coderfun.controllers.user.UserController;
 import org.coderfun.ext.route.AutoBindExtRoutes;
 import org.coderfun.ext.tablebind.AutoTableBindExtPlugin;
 import org.coderfun.interceptor.AuthInterceptor;
@@ -35,7 +32,6 @@ public class BaseConfig extends JFinalConfig {
         abr.includeAllJarsInLib(true);
         abr.addScanPackages("org.coderfun.controllers");
         me.add(abr);
-//        me.add("/user", UserController.class);
 
     }
 
@@ -54,10 +50,6 @@ public class BaseConfig extends JFinalConfig {
         dp.addFilter(wallDefault);
         me.add(dp);
 
-//        ActiveRecordPlugin ap = new ActiveRecordPlugin(dp);
-//        me.add(ap);
-//
-//        ap.addMapping("t_user", User.class);
         /**
          * 配置扫描model
          */
@@ -65,12 +57,10 @@ public class BaseConfig extends JFinalConfig {
         arp.includeAllJarsInLib(true);
         //指定需要扫描的包名
         arp.addScanPackages("org.coderfun.models");
-
         me.add(arp);
 
 
 //        me.add(new EhCachePlugin());
-
 //        me.add(new QuartzPlugin());
 
         /*   // 用于缓存bbs模块的redis服务

@@ -12,11 +12,9 @@
     <url>http://maven.apache.org</url>
 
     <dependencies>
-
-
         <dependency>
             <groupId>coderfun</groupId>
-            <artifactId>coderfun-base-jfinal</artifactId>
+            <artifactId>coderfun-controller</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
