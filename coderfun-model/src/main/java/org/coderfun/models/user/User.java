@@ -1,6 +1,7 @@
 package org.coderfun.models.user;
 
 
+
 import com.jfinal.ext.plugin.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
 

@@ -7,12 +7,15 @@ import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.wall.WallFilter;
 import com.jfinal.config.*;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
-import com.jfinal.ext.plugin.tablebind.AutoTableBindPlugin;
+
+
 import com.jfinal.ext.plugin.tablebind.SimpleNameStyles;
 import com.jfinal.log.Logger;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.druid.DruidStatViewHandler;
 import org.coderfun.controllers.user.UserController;
+import org.coderfun.ext.route.AutoBindExtRoutes;
+import org.coderfun.ext.tablebind.AutoTableBindExtPlugin;
 import org.coderfun.interceptor.AuthInterceptor;
 
 
@@ -28,15 +31,11 @@ public class BaseConfig extends JFinalConfig {
     }
 
     public void configRoute(Routes me) {
-        /*AutoBindRoutes abr = new AutoBindRoutes();
+        AutoBindExtRoutes abr = new AutoBindExtRoutes();
         abr.includeAllJarsInLib(true);
+        abr.addScanPackages("org.coderfun.controllers");
         me.add(abr);
-*/
-        me.add("/user", UserController.class);
-
-
-
-
+//        me.add("/user", UserController.class);
 
     }
 
@@ -62,16 +61,11 @@ public class BaseConfig extends JFinalConfig {
         /**
          * 配置扫描model
          */
-        String test = "org/test";
-        System.out.println("test:" + test.startsWith("org\\test"));
-        AutoTableBindPlugin arp = new AutoTableBindPlugin(dp, SimpleNameStyles.LOWER);
-//        String listPath = PathKit.getRootClassPath().substring(0, PathKit.getRootClassPath().lastIndexOf("\\")) + File.separator + "coderfun-webapp" + File.separator + "WEB-INF" + File.separator + "lib";
-//        System.out.println(listPath);
+        AutoTableBindExtPlugin arp = new AutoTableBindExtPlugin(dp, SimpleNameStyles.LOWER);
         arp.includeAllJarsInLib(true);
-        arp.addScanPackages("org.coderfun.models");
         //指定需要扫描的包名
-//        arp.addScanPackages("org.coderfun.model");
-//        arp.libDir(listPath);
+        arp.addScanPackages("org.coderfun.models");
+
         me.add(arp);
 
 

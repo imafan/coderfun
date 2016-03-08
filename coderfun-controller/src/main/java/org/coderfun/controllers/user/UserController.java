@@ -14,18 +14,10 @@ public class UserController extends Controller{
     UserService userService = new UserService();
 
     public void index(){
-        JSONObject returnData = new JSONObject();
-        returnData.put("success",true);
-        if(User.me != null){
-            returnData.put("data", User.me.find("select * from t_user"));
-        }else{
-            User test = new User();
-            returnData.put("data", test.find("select * from t_user"));
-        }
 
+        setAttr("data", userService.findAll());
+        setAttr("success", true);
 
-
-        renderJson(returnData);
-
+        renderJson();
     }
 }
