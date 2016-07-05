@@ -13,14 +13,14 @@
             position: absolute;
             z-index: 999;
         }
-        test
+       /* .test
         {
             position: absolute;
             width: 80px;
             height: 30px;
             top: 0px;
             z-index: 0;
-        }
+        }*/
     </style>
 </head>
 
@@ -42,9 +42,10 @@
         var point = getStartEnd(obj.obj1, obj.obj2);
         var path1 = getArr(point.start.x, point.start.y, point.end.x, point.end.y, 8);
         if (obj.arrPath) {
-            obj.arrPath.attr({ path: path1 });
+            obj.arrPath.attr({ path: path1,"stroke-width": 2,"stroke":"#5b9bd5" });
         } else {
             obj.arrPath = this.path(path1);
+            obj.arrPath.attr({"stroke-width": 2,"stroke":"#5b9bd5"});
         }
         return obj;
     };
@@ -104,6 +105,7 @@
         var x2b = x2 + Math.cos(a45m) * size;
         var y2b = y2 + Math.sin(a45m) * size;
         var result = ["M", x1, y1, "L", x2, y2, "L", x2a, y2a, "M", x2, y2, "L", x2b, y2b];
+        console.info("result",result);
         return result;
     }
 
@@ -138,6 +140,12 @@
             r.rect(290, 180, 60, 40, 4),
             r.rect(450, 100, 60, 40, 4)
         ];
+//        var shapes = [
+//            r.ellipse(190, 100,40,20),
+//            r.ellipse(290, 80, 40,20),
+//            r.ellipse(290, 180, 40,20),
+//            r.ellipse(450, 100, 40,20)
+//        ];
         //定位节点上的文字
         $("#test1").offset({ top: 100 + 10, left: 190 + 10 });
         $("#test2").offset({ top: 80 + 10, left: 290 + 10 });
@@ -146,7 +154,7 @@
         //为节点添加样式和事件，并且绘制节点之间的箭头
         for (var i = 0, ii = shapes.length; i < ii; i++) {
             var color = Raphael.getColor();
-            shapes[i].attr({ fill: color, stroke: color, "fill-opacity": 0, "stroke-width": 2, cursor: "move" });
+            shapes[i].attr({ "fill": color, stroke: color, "fill-opacity": 0, "stroke-width": 2, cursor: "move" });
             shapes[i].id = i + 1;
             shapes[i].drag(move, dragger, up);
             shapes[i].dblclick(function () { alert(this.id) })
