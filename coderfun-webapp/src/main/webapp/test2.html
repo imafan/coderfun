@@ -41,11 +41,15 @@
     Raphael.fn.drawArr = function (obj) {
         var point = getStartEnd(obj.obj1, obj.obj2);
         var path1 = getArr(point.start.x, point.start.y, point.end.x, point.end.y, 8);
+        console.info("obj",obj);
         if (obj.arrPath) {
-            obj.arrPath.attr({ path: path1,"stroke-width": 2,"stroke":"#5b9bd5" });
+            obj.arrPath.attrs.path =  path1    ;
+            obj.arrPath.attr(obj.arrPath.attrs);
+//            obj.arrPath.attr({ path: path1,"stroke-width": 2,"stroke":"#5b9bd5" });
+//            obj.arrPath.attr({ path: path1,"stroke-width": 2, "fill":"#5b9bd5","stroke":"#5b9bd5","arrow-end":"classic-wide-long" });
         } else {
             obj.arrPath = this.path(path1);
-            obj.arrPath.attr({"stroke-width": 2,"stroke":"#5b9bd5"});
+            obj.arrPath.attr({"stroke-width": 2,"fill":"#5b9bd5","stroke":"#5b9bd5","arrow-end":"classic-wide-long"});
         }
         return obj;
     };
@@ -104,8 +108,9 @@
         var y2a = y2 + Math.sin(a45) * size;
         var x2b = x2 + Math.cos(a45m) * size;
         var y2b = y2 + Math.sin(a45m) * size;
-        var result = ["M", x1, y1, "L", x2, y2, "L", x2a, y2a, "M", x2, y2, "L", x2b, y2b];
-        console.info("result",result);
+//        var result = ["M", x1, y1, "L", x2, y2, "L", x2a, y2a, "M", x2, y2, "L", x2b, y2b];
+        var result = ["M", x1, y1, "L", x2, y2];
+//        console.info("result",result);
         return result;
     }
 
@@ -114,15 +119,20 @@
         var connections = [];
         //拖动节点开始时的事件
         var dragger = function () {
-            this.ox = this.attr("x");
-            this.oy = this.attr("y");
+//            console.info("this",this);
+//            this.ox = this.attr("x");
+//            this.oy = this.attr("y");
+            this.ox = this.attr("cx");
+            this.oy = this.attr("cy");
             this.animate({ "fill-opacity": .2 }, 500);
         };
         //拖动事件
         var move = function (dx, dy) {
-            var att = { x: this.ox + dx, y: this.oy + dy };
+//            var att = { x: this.ox + dx, y: this.oy + dy };
+            var att = { cx: this.ox + dx, cy: this.oy + dy };
+            //console.info("att",att);
             this.attr(att);
-            $("#test" + this.id).offset({ top: this.oy + dy + 10, left: this.ox + dx + 10 });
+            $("#test" + this.id).offset({ top: this.oy + dy + 10 - 20, left: this.ox + dx + 10 - 30 });
             for (var i = connections.length; i--; ) {
                 r.drawArr(connections[i]);
             }
@@ -133,28 +143,34 @@
         };
         //创建绘图对象
         var r = Raphael("holder", $(window).width(), $(window).height());
-        //绘制节点
+/*        //绘制节点
         var shapes = [
             r.rect(190, 100, 60, 40, 4),
             r.rect(290, 80, 60, 40, 4),
             r.rect(290, 180, 60, 40, 4),
             r.rect(450, 100, 60, 40, 4)
         ];
-//        var shapes = [
-//            r.ellipse(190, 100,40,20),
-//            r.ellipse(290, 80, 40,20),
-//            r.ellipse(290, 180, 40,20),
-//            r.ellipse(450, 100, 40,20)
 //        ];
         //定位节点上的文字
         $("#test1").offset({ top: 100 + 10, left: 190 + 10 });
         $("#test2").offset({ top: 80 + 10, left: 290 + 10 });
         $("#test3").offset({ top: 180 + 10, left: 290 + 10 });
-        $("#test4").offset({ top: 100 + 10, left: 450 + 10 });
+        $("#test4").offset({ top: 100 + 10, left: 450 + 10 });*/
+        var shapes = [
+            r.ellipse(190, 100,40,20),
+            r.ellipse(290, 80, 40,20),
+            r.ellipse(290, 180, 40,20),
+            r.ellipse(450, 100, 40,20)
+        ];
+        //定位节点上的文字
+        $("#test1").offset({ top: 80 + 10, left: 160 + 10 });
+        $("#test2").offset({ top: 60 + 10, left: 260 + 10 });
+        $("#test3").offset({ top: 160 + 10, left: 260 + 10 });
+        $("#test4").offset({ top: 80 + 10, left: 420 + 10 });
         //为节点添加样式和事件，并且绘制节点之间的箭头
         for (var i = 0, ii = shapes.length; i < ii; i++) {
             var color = Raphael.getColor();
-            shapes[i].attr({ "fill": color, stroke: color, "fill-opacity": 0, "stroke-width": 2, cursor: "move" });
+            shapes[i].attr({ "fill": color, stroke: color, "fill-opacity": 0, "stroke-width": 2, cursor: "move" ,"arrow-end":"classic-wide-long"});
             shapes[i].id = i + 1;
             shapes[i].drag(move, dragger, up);
             shapes[i].dblclick(function () { alert(this.id) })
