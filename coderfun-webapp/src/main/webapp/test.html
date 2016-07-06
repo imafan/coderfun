@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>raphael</title>
+    <style type="text/css">
+        #holder{
+            background-color: #000000;
+        }
+    </style>
 </head>
+
 <body>
 
 <div id="holder"></div>
@@ -74,7 +80,7 @@
             var color = typeof line == "string" ? line : "#000";
             return {
                 bg: bg && bg.split && this.path(path).attr({stroke: bg.split("|")[0], fill: "none", "stroke-width": bg.split("|")[1] || 3}),
-                line: this.path(path).attr({stroke: color, fill: "none"}),
+                line: this.path(path).attr({stroke: "#FFF", fill: "none","stroke-width": 2,"arrow-end":"classic-wide-long",}),
                 from: obj1,
                 to: obj2
             };
@@ -94,14 +100,15 @@
                     for (var i = connections.length; i--;) {
                         r.connection(connections[i]);
                     }
-                    r.safari();
+                    //r.safari();
                 },
                 up = function () {
                     this.animate({"fill-opacity": 0}, 500);
                 },
                 r = Raphael("holder", 640, 480),
                 connections = [],
-                shapes = [  r.ellipse(190, 100, 30, 20),
+                shapes = [
+                    r.ellipse(190, 100, 30, 20),
                     r.rect(290, 80, 60, 40, 10),
                     r.rect(290, 180, 60, 40, 2),
                     r.ellipse(450, 100, 20, 20)
