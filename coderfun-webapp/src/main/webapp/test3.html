@@ -180,82 +180,7 @@
         }*/
     };
 
-    //随着节点位置的改变动态改变箭头
-    Raphael.fn.drawArr = function (obj) {
-        var point = getStartEnd(obj.obj1, obj.obj2);
-        var path1 = getArr(point.start.x, point.start.y, point.end.x, point.end.y, 8);
-        console.info("obj",obj);
-        if (obj.arrPath) {
-            obj.arrPath.attrs.path =  path1    ;
-            obj.arrPath.attr(obj.arrPath.attrs);
-//            obj.arrPath.attr({ path: path1,"stroke-width": 2,"stroke":"#5b9bd5" });
-//            obj.arrPath.attr({ path: path1,"stroke-width": 2, "fill":"#5b9bd5","stroke":"#5b9bd5","arrow-end":"classic-wide-long" });
-        } else {
-            obj.arrPath = this.path(path1);
-            obj.arrPath.attr({"stroke-width": 2,"fill":"#5b9bd5","stroke":"#5b9bd5","arrow-end":"classic-wide-long"});
-        }
-        return obj;
-    };
 
-    function getStartEnd(obj1, obj2) {
-        var bb1 = obj1.getBBox(),
-                bb2 = obj2.getBBox();
-        var p = [
-            { x: bb1.x + bb1.width / 2, y: bb1.y - 1 },
-            { x: bb1.x + bb1.width / 2, y: bb1.y + bb1.height + 1 },
-            { x: bb1.x - 1, y: bb1.y + bb1.height / 2 },
-            { x: bb1.x + bb1.width + 1, y: bb1.y + bb1.height / 2 },
-            { x: bb2.x + bb2.width / 2, y: bb2.y - 1 },
-            { x: bb2.x + bb2.width / 2, y: bb2.y + bb2.height + 1 },
-            { x: bb2.x - 1, y: bb2.y + bb2.height / 2 },
-            { x: bb2.x + bb2.width + 1, y: bb2.y + bb2.height / 2 }
-        ];
-        var d = {}, dis = [];
-        for (var i = 0; i < 4; i++) {
-            for (var j = 4; j < 8; j++) {
-                var dx = Math.abs(p[i].x - p[j].x),
-                        dy = Math.abs(p[i].y - p[j].y);
-                if (
-                        (i == j - 4) ||
-                        (((i != 3 && j != 6) || p[i].x < p[j].x) &&
-                        ((i != 2 && j != 7) || p[i].x > p[j].x) &&
-                        ((i != 0 && j != 5) || p[i].y > p[j].y) &&
-                        ((i != 1 && j != 4) || p[i].y < p[j].y))
-                ) {
-                    dis.push(dx + dy);
-                    d[dis[dis.length - 1]] = [i, j];
-                }
-            }
-        }
-        if (dis.length == 0) {
-            var res = [0, 4];
-        } else {
-            res = d[Math.min.apply(Math, dis)];
-        }
-        var result = {};
-        result.start = {};
-        result.end = {};
-        result.start.x = p[res[0]].x;
-        result.start.y = p[res[0]].y;
-        result.end.x = p[res[1]].x;
-        result.end.y = p[res[1]].y;
-        return result;
-    }
-
-    //获取组成箭头的三条线段的路径
-    function getArr(x1, y1, x2, y2, size) {
-        var angle = Raphael.angle(x1, y1, x2, y2);//得到两点之间的角度
-        var a45 = Raphael.rad(angle - 45);//角度转换成弧度
-        var a45m = Raphael.rad(angle + 45);
-        var x2a = x2 + Math.cos(a45) * size;
-        var y2a = y2 + Math.sin(a45) * size;
-        var x2b = x2 + Math.cos(a45m) * size;
-        var y2b = y2 + Math.sin(a45m) * size;
-//        var result = ["M", x1, y1, "L", x2, y2, "L", x2a, y2a, "M", x2, y2, "L", x2b, y2b];
-        var result = ["M", x1, y1, "L", x2, y2];
-//        console.info("result",result);
-        return result;
-    }
 
     $(function(){
         //用来存储节点的顺序
@@ -290,29 +215,10 @@
         var r = Raphael("holder", $(window).width(), $(window).height());
         //绘制节点
         var shapes = [
-            r.rect(190, 100, 60, 40, 4),
-            r.rect(290, 80, 60, 40, 4),
-            r.rect(290, 180, 60, 40, 4),
-            r.rect(450, 100, 60, 40, 4)
+            r.rect(190, 50, 60, 40, 4),
+            r.rect(290, 100, 60, 40, 4)
         ];
-        /*
-//        ];
-        //定位节点上的文字
-        $("#test1").offset({ top: 100 + 10, left: 190 + 10 });
-        $("#test2").offset({ top: 80 + 10, left: 290 + 10 });
-        $("#test3").offset({ top: 180 + 10, left: 290 + 10 });
-        $("#test4").offset({ top: 100 + 10, left: 450 + 10 });*/
-//        var shapes = [
-//            r.ellipse(190, 100,50,30),
-//            r.ellipse(290, 80, 50,30),
-//            r.ellipse(290, 180, 50,30),
-//            r.ellipse(450, 100, 50,30)
-//        ];
-        //定位节点上的文字
-        $("#test1").offset({ top: 80 + 10, left: 160 + 10 });
-        $("#test2").offset({ top: 60 + 10, left: 260 + 10 });
-        $("#test3").offset({ top: 160 + 10, left: 260 + 10 });
-        $("#test4").offset({ top: 80 + 10, left: 420 + 10 });
+
         //为节点添加样式和事件，并且绘制节点之间的箭头
         for (var i = 0, ii = shapes.length; i < ii; i++) {
             var color = Raphael.getColor();
