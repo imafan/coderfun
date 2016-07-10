@@ -98,10 +98,10 @@
     };
 
     Raphael.fn.connectionTest = function (obj1, obj2, line) {
-        if (obj1.line && obj1.from && obj1.to) {
+        if (obj1.line2 && obj1.from2 && obj1.to2) {
             line = obj1;
-            obj1 = line.from;
-            obj2 = line.to;
+            obj1 = line.from2;
+            obj2 = line.to2;
         }
         var bb1 = obj1.getBBox(),
                 bb2 = obj2.getBBox(),
@@ -119,25 +119,291 @@
 
         var diffx = bb1.x - bb2.x,
             diffy = bb1.y - bb2.y;
+        console.info("diffx",diffx);
+        console.info("diffy",diffy);
         //obj1在obj2左边
         if(diffx < 0){
             if( Math.abs(diffx) > bb1.width){
                 path.push("M");
-                path.push(p[2].x);
-                path.push(p[2].y);
+                path.push(p[3].x);
+                path.push(p[3].y);
 
+                //obj1在obj2下面
                 if(diffy > 0){
-                    if( diffy > bb1.y ){
+                    if( diffy > bb2.height ){
+                        path.push("L");
+                        path.push(p[5].x);
+                        path.push(bb1.y + bb1.height/2);
+                        path.push(p[5].x);
+                        path.push(p[5].y);
+                    }else{
+                        path.push("L");
+                        path.push(p[6].x);
+                        path.push(p[6].y);
+                    }
+                }
+
+                //obj1在obj2上面
+                if(diffy < 0){
+                    if( Math.abs(diffy) > bb1.height ){
                         path.push("L");
                         path.push(p[4].x);
-                        path.push(bb1.y);
+                        path.push(bb1.y + bb1.height/2);
+                        path.push(p[4].x);
+                        path.push(p[4].y);
+                    }else{
+                        path.push("L");
+                        path.push(p[6].x);
+                        path.push(p[6].y);
+                    }
+                }
+
+                if(diffy == 0){
+                    path.push("L");
+                    path.push(p[6].x);
+                    path.push(p[6].y);
+                }
+            }
+
+            if( Math.abs(diffx) == bb1.width){
+                path.push("M");
+                //obj1在obj2下面
+                if(diffy > 0){
+                    path.push(p[0].x);
+                    path.push(p[0].y);
+                    if( diffy > bb2.height ){
+                        path.push("L");
+                        path.push(p[0].x);
+                        path.push(bb2.y + bb2.height/2);
+                        path.push(p[6].x);
+                        path.push(p[6].y);
+                    }else{
+                        path.push("L");
+                        path.push(p[6].x);
+                        path.push(p[6].y);
+                    }
+                }
+
+                //obj1在obj2上面
+                if(diffy < 0){
+                    path.push(p[1].x);
+                    path.push(p[1].y);
+
+                    if( Math.abs(diffy) > bb1.height ){
+                        path.push("L");
+                        path.push(p[1].x);
+                        path.push(bb2.y + bb2.height/2);
+                        path.push(p[6].x);
+                        path.push(p[6].y);
+                    }else{
+                        path.push("L");
+                        path.push(p[6].x);
+                        path.push(p[6].y);
+                    }
+                }
+            }
+
+            if( Math.abs(diffx) < bb1.width && Math.abs(diffx) > bb1.width/2){
+                path.push("M");
+
+                //obj1在obj2下面
+                if(diffy > 0){
+                    path.push(p[0].x);
+                    path.push(p[0].y);
+                    if( diffy > bb2.height ){
+                        path.push("L");
+                        path.push(p[0].x);
+                        path.push(bb2.y + bb2.height/2);
+                        path.push(p[6].x);
+                        path.push(p[6].y);
+                    }
+                }
+
+                //obj1在obj2上面
+                if(diffy < 0){
+                    path.push(p[1].x);
+                    path.push(p[1].y);
+
+                    if( Math.abs(diffy) > bb1.height ){
+                        path.push("L");
+                        path.push(p[1].x);
+                        path.push(bb2.y + bb2.height/2);
+                        path.push(p[6].x);
+                        path.push(p[6].y);
+                    }
+                }
+            }
+
+            if( Math.abs(diffx) < bb1.width && Math.abs(diffx) <= bb1.width/2){
+
+                path.push("M");
+
+                //obj1在obj2下面
+                if(diffy > 0){
+                    path.push(p[0].x);
+                    path.push(p[0].y);
+                    if( diffy > bb2.height ){
+                        path.push("L");
+                        path.push(p[5].x);
+                        path.push(p[5].y);
+                    }
+                }
+
+                //obj1在obj2上面
+                if(diffy < 0){
+                    path.push(p[1].x);
+                    path.push(p[1].y);
+                    if( Math.abs(diffy) > bb1.height ){
+                        path.push("L");
                         path.push(p[4].x);
                         path.push(p[4].y);
                     }
                 }
             }
-
         }
+
+        //obj1在obj2右边
+        if(diffx > 0){
+            if( Math.abs(diffx) > bb2.width){
+                path.push("M");
+                path.push(p[2].x);
+                path.push(p[2].y);
+
+                //obj1在obj2下面
+                if(diffy > 0){
+                    if( diffy > bb2.height ){
+                        path.push("L");
+                        path.push(p[5].x);
+                        path.push(bb1.y + bb1.height/2);
+                        path.push(p[5].x);
+                        path.push(p[5].y);
+                    }else{
+                        path.push("L");
+                        path.push(p[7].x);
+                        path.push(p[7].y);
+                    }
+                }
+
+                //obj1在obj2上面
+                if(diffy < 0){
+                    if( Math.abs(diffy) > bb1.height ){
+                        path.push("L");
+                        path.push(p[4].x);
+                        path.push(bb1.y + bb1.height/2);
+                        path.push(p[4].x);
+                        path.push(p[4].y);
+                    }else{
+                        path.push("L");
+                        path.push(p[7].x);
+                        path.push(p[7].y);
+                    }
+                }
+
+                if(diffy == 0){
+                    path.push("L");
+                    path.push(p[7].x);
+                    path.push(p[7].y);
+                }
+            }
+
+            if( Math.abs(diffx) == bb2.width){
+                path.push("M");
+                //obj1在obj2下面
+                if(diffy > 0){
+                    path.push(p[0].x);
+                    path.push(p[0].y);
+                    if( diffy > bb2.height ){
+                        path.push("L");
+                        path.push(p[0].x);
+                        path.push(bb2.y + bb2.height/2);
+                        path.push(p[7].x);
+                        path.push(p[7].y);
+                    }else{
+                        path.push("L");
+                        path.push(p[7].x);
+                        path.push(p[7].y);
+                    }
+                }
+
+                //obj1在obj2上面
+                if(diffy < 0){
+                    path.push(p[1].x);
+                    path.push(p[1].y);
+
+                    if( Math.abs(diffy) > bb1.height ){
+                        path.push("L");
+                        path.push(p[1].x);
+                        path.push(bb2.y + bb2.height/2);
+                        path.push(p[7].x);
+                        path.push(p[7].y);
+                    }else{
+                        path.push("L");
+                        path.push(p[7].x);
+                        path.push(p[7].y);
+                    }
+                }
+            }
+
+            if( Math.abs(diffx) < bb2.width && Math.abs(diffx) > bb2.width/2){
+                path.push("M");
+
+                //obj1在obj2下面
+                if(diffy > 0){
+                    path.push(p[0].x);
+                    path.push(p[0].y);
+                    if( diffy > bb2.height ){
+                        path.push("L");
+                        path.push(p[0].x);
+                        path.push(bb2.y + bb2.height/2);
+                        path.push(p[7].x);
+                        path.push(p[7].y);
+                    }
+                }
+
+                //obj1在obj2上面
+                if(diffy < 0){
+                    path.push(p[1].x);
+                    path.push(p[1].y);
+
+                    if( Math.abs(diffy) > bb1.height ){
+                        path.push("L");
+                        path.push(p[1].x);
+                        path.push(bb2.y + bb2.height/2);
+                        path.push(p[7].x);
+                        path.push(p[7].y);
+                    }
+                }
+            }
+
+            if( Math.abs(diffx) < bb2.width && Math.abs(diffx) <= bb2.width/2){
+
+                path.push("M");
+
+                //obj1在obj2下面
+                if(diffy > 0){
+                    path.push(p[0].x);
+                    path.push(p[0].y);
+                    if( diffy > bb2.height ){
+                        path.push("L");
+                        path.push(p[5].x);
+                        path.push(p[5].y);
+                    }
+                }
+
+                //obj1在obj2上面
+                if(diffy < 0){
+                    path.push(p[1].x);
+                    path.push(p[1].y);
+                    if( Math.abs(diffy) > bb1.height ){
+                        path.push("L");
+                        path.push(p[4].x);
+                        path.push(p[4].y);
+                    }
+                }
+            }
+        }
+
+        console.info("path",path);
 
         /*for (var i = 0; i < 4; i++) {
             for (var j = 4; j < 8; j++) {
@@ -165,19 +431,21 @@
                 x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
                 y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
         var path = ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
-        if (line && line.line) {
+
+         */
+        if (line && line.line2) {
             //   line.bg && line.bg.attr({path: path});
-            line.line.attr({path: path});
+            line.line2.attr({path: path});
         } else {
             console.info("line",line);
             var color = typeof line == "string" ? line : "#000";
             return {
                 //      bg: bg && bg.split && this.path(path).attr({stroke: bg.split("|")[0], fill: "none", "stroke-width": bg.split("|")[1] || 3}),
-                line: this.path(path).attr({ fill: "none",stroke:line.split("|")[0],"stroke-width": line.split("|")[1] || 2,"arrow-end":"classic-wide-long",}),
-                from: obj1,
-                to: obj2
+                line2: this.path(path).attr({ fill: "none",stroke:line.split("|")[0],"stroke-width": line.split("|")[1] || 2,"arrow-end":"classic-wide-long"}),
+                from2: obj1,
+                to2: obj2
             };
-        }*/
+        }
     };
 
 
@@ -185,6 +453,7 @@
     $(function(){
         //用来存储节点的顺序
         var connections = [];
+        var connectionsTest = [];
         //拖动节点开始时的事件
         var dragger = function () {
 //            console.info("this",this);
@@ -203,8 +472,12 @@
             this.attr(att);
             $("#test" + this.id).offset({ top: this.oy + dy + 10 - 20, left: this.ox + dx + 10 - 30 });
 
-            for (var i = connections.length; i--; ) {
-                r.connection(connections[i]);
+//            for (var i = connections.length; i--; ) {
+//                r.connection(connections[i]);
+//            }
+
+            for (var i = connectionsTest.length; i--; ) {
+                r.connectionTest(connectionsTest[i]);
             }
         };
         //拖动结束后的事件
@@ -231,9 +504,10 @@
             shapes[i].dblclick(function () { alert(this.id) })
         }
         //存储节点间的顺序
-        connections.push(r.connection(shapes[0], shapes[1], "#5b9bd5"));
-        connections.push(r.connection(shapes[1], shapes[2], "#5b9bd5"));
-        connections.push(r.connection(shapes[2], shapes[3], "#5b9bd5"));
+//        connections.push(r.connection(shapes[0], shapes[1], "#5b9bd5"));
+        connectionsTest.push(r.connectionTest(shapes[0], shapes[1], "#5b9bd5") );
+//        connections.push(r.connection(shapes[1], shapes[2], "#5b9bd5"));
+//        connections.push(r.connection(shapes[2], shapes[3], "#5b9bd5"));
 
     })
 </script>
