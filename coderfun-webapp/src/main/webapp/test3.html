@@ -435,8 +435,8 @@
         var shapes = [
             r.rect(190, 50, 60, 40, 4),
             r.rect(290, 100, 60, 40, 4),
-            r.rect(290, 180, 60, 40, 4),
-            r.rect(450, 100, 60, 40, 4)
+            r.rect(290, 160, 60, 40, 4),
+            r.rect(290, 240, 60, 40, 4)
         ];
 
         //为节点添加样式和事件，并且绘制节点之间的箭头
@@ -455,6 +455,7 @@
         connectionsTest.push(r.connectionTest(shapes[0], shapes[1], "#5b9bd5") );
         connectionsTest.push(r.connectionTest(shapes[1], shapes[2], "#5b9bd5"));
         connectionsTest.push(r.connectionTest(shapes[2], shapes[3], "#5b9bd5"));
+        connectionsTest.push(r.connectionTest(shapes[1], shapes[3], "#5b9bd5"));
 
     })
 </script>
