@@ -159,25 +159,21 @@
                 path.push(p[3].y);
 
                 //obj1在obj2下面
-                if(diffy > 0){
-                    if( diffy > bb2.height ){
-                        path.push("L");
-                        path.push(p[5].x);
-                        path.push(bb1.y + bb1.height/2);
-                        path.push(p[5].x);
-                        path.push(p[5].y);
-                    }
+                if(diffy > 0 && diffy > bb2.height ){
+                    path.push("L");
+                    path.push(p[5].x);
+                    path.push(bb1.y + bb1.height/2);
+                    path.push(p[5].x);
+                    path.push(p[5].y);
                 }
 
                 //obj1在obj2上面
-                if(diffy < 0){
-                    if( Math.abs(diffy) > bb1.height ){
-                        path.push("L");
-                        path.push(p[4].x);
-                        path.push(bb1.y + bb1.height/2);
-                        path.push(p[4].x);
-                        path.push(p[4].y);
-                    }
+                if( diffy < 0 && Math.abs(diffy) > bb1.height ){
+                    path.push("L");
+                    path.push(p[4].x);
+                    path.push(bb1.y + bb1.height/2);
+                    path.push(p[4].x);
+                    path.push(p[4].y);
                 }
 
                 if(diffy == 0 || (diffy < 0 && Math.abs(diffy) <= bb1.height) || (diffy > 0 && diffy <= bb2.height)){
@@ -193,266 +189,74 @@
                 if(diffy > 0){
                     path.push(p[0].x);
                     path.push(p[0].y);
+                    path.push("L");
                     if( diffy > bb2.height ){
-                        path.push("L");
                         path.push(p[0].x);
                         path.push(bb2.y + bb2.height/2);
-                        path.push(p[6].x);
-                        path.push(p[6].y);
-                    }else{
-                        path.push("L");
-                        path.push(p[6].x);
-                        path.push(p[6].y);
                     }
+                    path.push(p[6].x);
+                    path.push(p[6].y);
                 }
 
                 //obj1在obj2上面
                 if(diffy < 0){
                     path.push(p[1].x);
                     path.push(p[1].y);
-
+                    path.push("L");
                     if( Math.abs(diffy) > bb1.height ){
-                        path.push("L");
                         path.push(p[1].x);
                         path.push(bb2.y + bb2.height/2);
-                        path.push(p[6].x);
-                        path.push(p[6].y);
-                    }else{
-                        path.push("L");
-                        path.push(p[6].x);
-                        path.push(p[6].y);
                     }
-                }
-            }
 
-            if( Math.abs(diffx) < bb1.width && Math.abs(diffx) > bb1.width/2){
-                path.push("M");
-
-                //obj1在obj2下面
-                if(diffy > 0){
-                    path.push(p[0].x);
-                    path.push(p[0].y);
-                    if( diffy > bb2.height ){
-                        path.push("L");
-                        path.push(p[0].x);
-                        path.push(bb2.y + bb2.height/2);
-                        path.push(p[6].x);
-                        path.push(p[6].y);
-                    }else{
-                        d = {}, dis = [];
-                        for (var i = 0; i < 4; i++) {
-                            for (var j = 4; j < 8; j++) {
-                                var dx = Math.abs(p[i].x - p[j].x),
-                                        dy = Math.abs(p[i].y - p[j].y);
-                                if ((i == j - 4) || (((i != 3 && j != 6) || p[i].x < p[j].x) && ((i != 2 && j != 7) || p[i].x > p[j].x) && ((i != 0 && j != 5) || p[i].y > p[j].y) && ((i != 1 && j != 4) || p[i].y < p[j].y))) {
-                                    dis.push(dx + dy);
-                                    d[dis[dis.length - 1]] = [i, j];
-                                }
-                            }
-                        }
-                        if (dis.length == 0) {
-                            var res = [0, 4];
-                        } else {
-                            res = d[Math.min.apply(Math, dis)];
-                        }
-                        var x1 = p[res[0]].x,
-                                y1 = p[res[0]].y,
-                                x4 = p[res[1]].x,
-                                y4 = p[res[1]].y;
-                        dx = Math.max(Math.abs(x1 - x4) / 2, 10);
-                        dy = Math.max(Math.abs(y1 - y4) / 2, 10);
-                        var x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3),
-                                y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3),
-                                x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
-                                y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
-                        path = ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
-                    }
-                }
-
-                //obj1在obj2上面
-                if(diffy < 0){
-                    path.push(p[1].x);
-                    path.push(p[1].y);
-
-                    if( Math.abs(diffy) > bb1.height ){
-                        path.push("L");
-                        path.push(p[1].x);
-                        path.push(bb2.y + bb2.height/2);
-                        path.push(p[6].x);
-                        path.push(p[6].y);
-                    }else{
-                        d = {}, dis = [];
-                        for (var i = 0; i < 4; i++) {
-                            for (var j = 4; j < 8; j++) {
-                                var dx = Math.abs(p[i].x - p[j].x),
-                                        dy = Math.abs(p[i].y - p[j].y);
-                                if ((i == j - 4) || (((i != 3 && j != 6) || p[i].x < p[j].x) && ((i != 2 && j != 7) || p[i].x > p[j].x) && ((i != 0 && j != 5) || p[i].y > p[j].y) && ((i != 1 && j != 4) || p[i].y < p[j].y))) {
-                                    dis.push(dx + dy);
-                                    d[dis[dis.length - 1]] = [i, j];
-                                }
-                            }
-                        }
-                        if (dis.length == 0) {
-                            var res = [0, 4];
-                        } else {
-                            res = d[Math.min.apply(Math, dis)];
-                        }
-                        var x1 = p[res[0]].x,
-                                y1 = p[res[0]].y,
-                                x4 = p[res[1]].x,
-                                y4 = p[res[1]].y;
-                        dx = Math.max(Math.abs(x1 - x4) / 2, 10);
-                        dy = Math.max(Math.abs(y1 - y4) / 2, 10);
-                        var x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3),
-                                y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3),
-                                x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
-                                y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
-                        path = ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
-                    }
+                    path.push(p[6].x);
+                    path.push(p[6].y);
                 }
 
                 if(diffy == 0){
-                    d = {}, dis = [];
-                    for (var i = 0; i < 4; i++) {
-                        for (var j = 4; j < 8; j++) {
-                            var dx = Math.abs(p[i].x - p[j].x),
-                                    dy = Math.abs(p[i].y - p[j].y);
-                            if ((i == j - 4) || (((i != 3 && j != 6) || p[i].x < p[j].x) && ((i != 2 && j != 7) || p[i].x > p[j].x) && ((i != 0 && j != 5) || p[i].y > p[j].y) && ((i != 1 && j != 4) || p[i].y < p[j].y))) {
-                                dis.push(dx + dy);
-                                d[dis[dis.length - 1]] = [i, j];
-                            }
-                        }
-                    }
-                    if (dis.length == 0) {
-                        var res = [0, 4];
-                    } else {
-                        res = d[Math.min.apply(Math, dis)];
-                    }
-                    var x1 = p[res[0]].x,
-                            y1 = p[res[0]].y,
-                            x4 = p[res[1]].x,
-                            y4 = p[res[1]].y;
-                    dx = Math.max(Math.abs(x1 - x4) / 2, 10);
-                    dy = Math.max(Math.abs(y1 - y4) / 2, 10);
-                    var x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3),
-                            y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3),
-                            x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
-                            y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
-                    path = ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
+                    path = Raphael.fn._getConnectionPath(p);
                 }
             }
 
-            if( Math.abs(diffx) < bb1.width && Math.abs(diffx) <= bb1.width/2){
-
+            if( Math.abs(diffx) < bb1.width ){
                 path.push("M");
 
                 //obj1在obj2下面
-                if(diffy > 0){
+                if(diffy > 0 && diffy > bb2.height){
                     path.push(p[0].x);
                     path.push(p[0].y);
-                    if( diffy > bb2.height ){
+                    if( Math.abs(diffx) > bb1.width/2){
+                        path.push("L");
+                        path.push(p[0].x);
+                        path.push(bb2.y + bb2.height/2);
+                        path.push(p[6].x);
+                        path.push(p[6].y);
+                    }else if(Math.abs(diffx) <= bb1.width/2){
                         path.push("L");
                         path.push(p[5].x);
                         path.push(p[5].y);
-                    }else{
-                        d = {}, dis = [];
-                        for (var i = 0; i < 4; i++) {
-                            for (var j = 4; j < 8; j++) {
-                                var dx = Math.abs(p[i].x - p[j].x),
-                                        dy = Math.abs(p[i].y - p[j].y);
-                                if ((i == j - 4) || (((i != 3 && j != 6) || p[i].x < p[j].x) && ((i != 2 && j != 7) || p[i].x > p[j].x) && ((i != 0 && j != 5) || p[i].y > p[j].y) && ((i != 1 && j != 4) || p[i].y < p[j].y))) {
-                                    dis.push(dx + dy);
-                                    d[dis[dis.length - 1]] = [i, j];
-                                }
-                            }
-                        }
-                        if (dis.length == 0) {
-                            var res = [0, 4];
-                        } else {
-                            res = d[Math.min.apply(Math, dis)];
-                        }
-                        var x1 = p[res[0]].x,
-                                y1 = p[res[0]].y,
-                                x4 = p[res[1]].x,
-                                y4 = p[res[1]].y;
-                        dx = Math.max(Math.abs(x1 - x4) / 2, 10);
-                        dy = Math.max(Math.abs(y1 - y4) / 2, 10);
-                        var x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3),
-                                y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3),
-                                x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
-                                y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
-                        path = ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
                     }
                 }
 
                 //obj1在obj2上面
-                if(diffy < 0){
+                if(diffy < 0 && Math.abs(diffy) > bb1.height){
                     path.push(p[1].x);
                     path.push(p[1].y);
-                    if( Math.abs(diffy) > bb1.height ){
+
+                    if( Math.abs(diffx) > bb1.width/2){
+                        path.push("L");
+                        path.push(p[1].x);
+                        path.push(bb2.y + bb2.height/2);
+                        path.push(p[6].x);
+                        path.push(p[6].y);
+                    }else if(Math.abs(diffx) <= bb1.width/2){
                         path.push("L");
                         path.push(p[4].x);
                         path.push(p[4].y);
-                    }else{
-                        d = {}, dis = [];
-                        for (var i = 0; i < 4; i++) {
-                            for (var j = 4; j < 8; j++) {
-                                var dx = Math.abs(p[i].x - p[j].x),
-                                        dy = Math.abs(p[i].y - p[j].y);
-                                if ((i == j - 4) || (((i != 3 && j != 6) || p[i].x < p[j].x) && ((i != 2 && j != 7) || p[i].x > p[j].x) && ((i != 0 && j != 5) || p[i].y > p[j].y) && ((i != 1 && j != 4) || p[i].y < p[j].y))) {
-                                    dis.push(dx + dy);
-                                    d[dis[dis.length - 1]] = [i, j];
-                                }
-                            }
-                        }
-                        if (dis.length == 0) {
-                            var res = [0, 4];
-                        } else {
-                            res = d[Math.min.apply(Math, dis)];
-                        }
-                        var x1 = p[res[0]].x,
-                                y1 = p[res[0]].y,
-                                x4 = p[res[1]].x,
-                                y4 = p[res[1]].y;
-                        dx = Math.max(Math.abs(x1 - x4) / 2, 10);
-                        dy = Math.max(Math.abs(y1 - y4) / 2, 10);
-                        var x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3),
-                                y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3),
-                                x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
-                                y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
-                        path = ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
                     }
                 }
 
-
-                if(diffy == 0){
-                    d = {}, dis = [];
-                    for (var i = 0; i < 4; i++) {
-                        for (var j = 4; j < 8; j++) {
-                            var dx = Math.abs(p[i].x - p[j].x),
-                                    dy = Math.abs(p[i].y - p[j].y);
-                            if ((i == j - 4) || (((i != 3 && j != 6) || p[i].x < p[j].x) && ((i != 2 && j != 7) || p[i].x > p[j].x) && ((i != 0 && j != 5) || p[i].y > p[j].y) && ((i != 1 && j != 4) || p[i].y < p[j].y))) {
-                                dis.push(dx + dy);
-                                d[dis[dis.length - 1]] = [i, j];
-                            }
-                        }
-                    }
-                    if (dis.length == 0) {
-                        var res = [0, 4];
-                    } else {
-                        res = d[Math.min.apply(Math, dis)];
-                    }
-                    var x1 = p[res[0]].x,
-                            y1 = p[res[0]].y,
-                            x4 = p[res[1]].x,
-                            y4 = p[res[1]].y;
-                    dx = Math.max(Math.abs(x1 - x4) / 2, 10);
-                    dy = Math.max(Math.abs(y1 - y4) / 2, 10);
-                    var x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3),
-                            y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3),
-                            x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
-                            y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
-                    path = ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
+                if(diffy == 0 || (diffy < 0 &&  Math.abs(diffy) <= bb1.height) || (diffy > 0 && diffy <= bb2.height)){
+                    path = Raphael.fn._getConnectionPath(p);
                 }
             }
         }
@@ -467,36 +271,24 @@
                 path.push(p[2].y);
 
                 //obj1在obj2下面
-                if(diffy > 0){
-                    if( diffy > bb2.height ){
-                        path.push("L");
-                        path.push(p[5].x);
-                        path.push(bb1.y + bb1.height/2);
-                        path.push(p[5].x);
-                        path.push(p[5].y);
-                    }else{
-                        path.push("L");
-                        path.push(p[7].x);
-                        path.push(p[7].y);
-                    }
+                if(diffy > 0 && diffy > bb2.height){
+                    path.push("L");
+                    path.push(p[5].x);
+                    path.push(bb1.y + bb1.height/2);
+                    path.push(p[5].x);
+                    path.push(p[5].y);
                 }
 
                 //obj1在obj2上面
-                if(diffy < 0){
-                    if( Math.abs(diffy) > bb1.height ){
-                        path.push("L");
-                        path.push(p[4].x);
-                        path.push(bb1.y + bb1.height/2);
-                        path.push(p[4].x);
-                        path.push(p[4].y);
-                    }else{
-                        path.push("L");
-                        path.push(p[7].x);
-                        path.push(p[7].y);
-                    }
+                if(diffy < 0 && Math.abs(diffy) > bb1.height){
+                    path.push("L");
+                    path.push(p[4].x);
+                    path.push(bb1.y + bb1.height/2);
+                    path.push(p[4].x);
+                    path.push(p[4].y);
                 }
 
-                if(diffy == 0){
+                if(diffy == 0 || (diffy < 0 &&  Math.abs(diffy) <= bb1.height) || (diffy > 0 && diffy <= bb2.height)){
                     path.push("L");
                     path.push(p[7].x);
                     path.push(p[7].y);
@@ -509,311 +301,91 @@
                 if(diffy > 0){
                     path.push(p[0].x);
                     path.push(p[0].y);
+                    path.push("L");
                     if( diffy > bb2.height ){
-                        path.push("L");
                         path.push(p[0].x);
                         path.push(bb2.y + bb2.height/2);
-                        path.push(p[7].x);
-                        path.push(p[7].y);
-                    }else{
-                        path.push("L");
-                        path.push(p[7].x);
-                        path.push(p[7].y);
                     }
+                    path.push(p[7].x);
+                    path.push(p[7].y);
                 }
 
                 //obj1在obj2上面
                 if(diffy < 0){
                     path.push(p[1].x);
                     path.push(p[1].y);
-
+                    path.push("L");
                     if( Math.abs(diffy) > bb1.height ){
-                        path.push("L");
                         path.push(p[1].x);
                         path.push(bb2.y + bb2.height/2);
-                        path.push(p[7].x);
-                        path.push(p[7].y);
-                    }else{
-                        path.push("L");
-                        path.push(p[7].x);
-                        path.push(p[7].y);
                     }
-                }
-            }
-
-            if( Math.abs(diffx) < bb2.width && Math.abs(diffx) > bb2.width/2){
-                path.push("M");
-
-                //obj1在obj2下面
-                if(diffy > 0){
-                    path.push(p[0].x);
-                    path.push(p[0].y);
-                    if( diffy > bb2.height ){
-                        path.push("L");
-                        path.push(p[0].x);
-                        path.push(bb2.y + bb2.height/2);
-                        path.push(p[7].x);
-                        path.push(p[7].y);
-                    }else{
-                        d = {}, dis = [];
-                        for (var i = 0; i < 4; i++) {
-                            for (var j = 4; j < 8; j++) {
-                                var dx = Math.abs(p[i].x - p[j].x),
-                                        dy = Math.abs(p[i].y - p[j].y);
-                                if ((i == j - 4) || (((i != 3 && j != 6) || p[i].x < p[j].x) && ((i != 2 && j != 7) || p[i].x > p[j].x) && ((i != 0 && j != 5) || p[i].y > p[j].y) && ((i != 1 && j != 4) || p[i].y < p[j].y))) {
-                                    dis.push(dx + dy);
-                                    d[dis[dis.length - 1]] = [i, j];
-                                }
-                            }
-                        }
-                        if (dis.length == 0) {
-                            var res = [0, 4];
-                        } else {
-                            res = d[Math.min.apply(Math, dis)];
-                        }
-                        var x1 = p[res[0]].x,
-                                y1 = p[res[0]].y,
-                                x4 = p[res[1]].x,
-                                y4 = p[res[1]].y;
-                        dx = Math.max(Math.abs(x1 - x4) / 2, 10);
-                        dy = Math.max(Math.abs(y1 - y4) / 2, 10);
-                        var x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3),
-                                y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3),
-                                x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
-                                y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
-                        path = ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
-                    }
-                }
-
-                //obj1在obj2上面
-                if(diffy < 0){
-                    path.push(p[1].x);
-                    path.push(p[1].y);
-
-                    if( Math.abs(diffy) > bb1.height ){
-                        path.push("L");
-                        path.push(p[1].x);
-                        path.push(bb2.y + bb2.height/2);
-                        path.push(p[7].x);
-                        path.push(p[7].y);
-                    }else{
-                        d = {}, dis = [];
-                        for (var i = 0; i < 4; i++) {
-                            for (var j = 4; j < 8; j++) {
-                                var dx = Math.abs(p[i].x - p[j].x),
-                                        dy = Math.abs(p[i].y - p[j].y);
-                                if ((i == j - 4) || (((i != 3 && j != 6) || p[i].x < p[j].x) && ((i != 2 && j != 7) || p[i].x > p[j].x) && ((i != 0 && j != 5) || p[i].y > p[j].y) && ((i != 1 && j != 4) || p[i].y < p[j].y))) {
-                                    dis.push(dx + dy);
-                                    d[dis[dis.length - 1]] = [i, j];
-                                }
-                            }
-                        }
-                        if (dis.length == 0) {
-                            var res = [0, 4];
-                        } else {
-                            res = d[Math.min.apply(Math, dis)];
-                        }
-                        var x1 = p[res[0]].x,
-                                y1 = p[res[0]].y,
-                                x4 = p[res[1]].x,
-                                y4 = p[res[1]].y;
-                        dx = Math.max(Math.abs(x1 - x4) / 2, 10);
-                        dy = Math.max(Math.abs(y1 - y4) / 2, 10);
-                        var x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3),
-                                y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3),
-                                x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
-                                y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
-                        path = ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
-                    }
+                    path.push(p[7].x);
+                    path.push(p[7].y);
                 }
 
                 if(diffy == 0){
-                    d = {}, dis = [];
-                    for (var i = 0; i < 4; i++) {
-                        for (var j = 4; j < 8; j++) {
-                            var dx = Math.abs(p[i].x - p[j].x),
-                                    dy = Math.abs(p[i].y - p[j].y);
-                            if ((i == j - 4) || (((i != 3 && j != 6) || p[i].x < p[j].x) && ((i != 2 && j != 7) || p[i].x > p[j].x) && ((i != 0 && j != 5) || p[i].y > p[j].y) && ((i != 1 && j != 4) || p[i].y < p[j].y))) {
-                                dis.push(dx + dy);
-                                d[dis[dis.length - 1]] = [i, j];
-                            }
-                        }
-                    }
-                    if (dis.length == 0) {
-                        var res = [0, 4];
-                    } else {
-                        res = d[Math.min.apply(Math, dis)];
-                    }
-                    var x1 = p[res[0]].x,
-                            y1 = p[res[0]].y,
-                            x4 = p[res[1]].x,
-                            y4 = p[res[1]].y;
-                    dx = Math.max(Math.abs(x1 - x4) / 2, 10);
-                    dy = Math.max(Math.abs(y1 - y4) / 2, 10);
-                    var x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3),
-                            y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3),
-                            x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
-                            y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
-                    path = ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
+                    path = Raphael.fn._getConnectionPath(p);
                 }
-
             }
 
-            if( Math.abs(diffx) < bb2.width && Math.abs(diffx) <= bb2.width/2){
-
+            if( Math.abs(diffx) < bb2.width ){
                 path.push("M");
 
                 //obj1在obj2下面
-                if(diffy > 0){
+                if(diffy > 0 && diffy > bb2.height){
                     path.push(p[0].x);
                     path.push(p[0].y);
-                    if( diffy > bb2.height ){
+                    if( Math.abs(diffx) > bb1.width/2){
+                        path.push("L");
+                        path.push(p[0].x);
+                        path.push(bb2.y + bb2.height/2);
+                        path.push(p[7].x);
+                        path.push(p[7].y);
+                    }else if(Math.abs(diffx) <= bb2.width/2){
                         path.push("L");
                         path.push(p[5].x);
                         path.push(p[5].y);
-                    }else{
-                        d = {}, dis = [];
-                        for (var i = 0; i < 4; i++) {
-                            for (var j = 4; j < 8; j++) {
-                                var dx = Math.abs(p[i].x - p[j].x),
-                                        dy = Math.abs(p[i].y - p[j].y);
-                                if ((i == j - 4) || (((i != 3 && j != 6) || p[i].x < p[j].x) && ((i != 2 && j != 7) || p[i].x > p[j].x) && ((i != 0 && j != 5) || p[i].y > p[j].y) && ((i != 1 && j != 4) || p[i].y < p[j].y))) {
-                                    dis.push(dx + dy);
-                                    d[dis[dis.length - 1]] = [i, j];
-                                }
-                            }
-                        }
-                        if (dis.length == 0) {
-                            var res = [0, 4];
-                        } else {
-                            res = d[Math.min.apply(Math, dis)];
-                        }
-                        var x1 = p[res[0]].x,
-                                y1 = p[res[0]].y,
-                                x4 = p[res[1]].x,
-                                y4 = p[res[1]].y;
-                        dx = Math.max(Math.abs(x1 - x4) / 2, 10);
-                        dy = Math.max(Math.abs(y1 - y4) / 2, 10);
-                        var x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3),
-                                y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3),
-                                x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
-                                y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
-                        path = ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
                     }
                 }
 
                 //obj1在obj2上面
-                if(diffy < 0){
+                if(diffy < 0 && Math.abs(diffy) > bb1.height){
                     path.push(p[1].x);
                     path.push(p[1].y);
-                    if( Math.abs(diffy) > bb1.height ){
+
+                    if( Math.abs(diffx) > bb1.width/2){
+                        path.push("L");
+                        path.push(p[1].x);
+                        path.push(bb2.y + bb2.height/2);
+                        path.push(p[7].x);
+                        path.push(p[7].y);
+                    }else if(Math.abs(diffx) <= bb2.width/2){
                         path.push("L");
                         path.push(p[4].x);
                         path.push(p[4].y);
-                    }else{
-                        d = {}, dis = [];
-                        for (var i = 0; i < 4; i++) {
-                            for (var j = 4; j < 8; j++) {
-                                var dx = Math.abs(p[i].x - p[j].x),
-                                        dy = Math.abs(p[i].y - p[j].y);
-                                if ((i == j - 4) || (((i != 3 && j != 6) || p[i].x < p[j].x) && ((i != 2 && j != 7) || p[i].x > p[j].x) && ((i != 0 && j != 5) || p[i].y > p[j].y) && ((i != 1 && j != 4) || p[i].y < p[j].y))) {
-                                    dis.push(dx + dy);
-                                    d[dis[dis.length - 1]] = [i, j];
-                                }
-                            }
-                        }
-                        if (dis.length == 0) {
-                            var res = [0, 4];
-                        } else {
-                            res = d[Math.min.apply(Math, dis)];
-                        }
-                        var x1 = p[res[0]].x,
-                                y1 = p[res[0]].y,
-                                x4 = p[res[1]].x,
-                                y4 = p[res[1]].y;
-                        dx = Math.max(Math.abs(x1 - x4) / 2, 10);
-                        dy = Math.max(Math.abs(y1 - y4) / 2, 10);
-                        var x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3),
-                                y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3),
-                                x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
-                                y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
-                        path = ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
                     }
                 }
 
-                if(diffy == 0){
-                    d = {}, dis = [];
-                    for (var i = 0; i < 4; i++) {
-                        for (var j = 4; j < 8; j++) {
-                            var dx = Math.abs(p[i].x - p[j].x),
-                                    dy = Math.abs(p[i].y - p[j].y);
-                            if ((i == j - 4) || (((i != 3 && j != 6) || p[i].x < p[j].x) && ((i != 2 && j != 7) || p[i].x > p[j].x) && ((i != 0 && j != 5) || p[i].y > p[j].y) && ((i != 1 && j != 4) || p[i].y < p[j].y))) {
-                                dis.push(dx + dy);
-                                d[dis[dis.length - 1]] = [i, j];
-                            }
-                        }
-                    }
-                    if (dis.length == 0) {
-                        var res = [0, 4];
-                    } else {
-                        res = d[Math.min.apply(Math, dis)];
-                    }
-                    var x1 = p[res[0]].x,
-                            y1 = p[res[0]].y,
-                            x4 = p[res[1]].x,
-                            y4 = p[res[1]].y;
-                    dx = Math.max(Math.abs(x1 - x4) / 2, 10);
-                    dy = Math.max(Math.abs(y1 - y4) / 2, 10);
-                    var x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3),
-                            y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3),
-                            x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
-                            y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
-                    path = ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
+                if(diffy == 0 || (diffy < 0 &&  Math.abs(diffy) <= bb1.height) || (diffy > 0 && diffy <= bb2.height)){
+                    path = Raphael.fn._getConnectionPath(p);
                 }
+
             }
         }
 
         if(diffx == 0){
-            d = {}, dis = [];
-            for (var i = 0; i < 4; i++) {
-                for (var j = 4; j < 8; j++) {
-                    var dx = Math.abs(p[i].x - p[j].x),
-                            dy = Math.abs(p[i].y - p[j].y);
-                    if ((i == j - 4) || (((i != 3 && j != 6) || p[i].x < p[j].x) && ((i != 2 && j != 7) || p[i].x > p[j].x) && ((i != 0 && j != 5) || p[i].y > p[j].y) && ((i != 1 && j != 4) || p[i].y < p[j].y))) {
-                        dis.push(dx + dy);
-                        d[dis[dis.length - 1]] = [i, j];
-                    }
-                }
-            }
-            if (dis.length == 0) {
-                var res = [0, 4];
-            } else {
-                res = d[Math.min.apply(Math, dis)];
-            }
-            var x1 = p[res[0]].x,
-                    y1 = p[res[0]].y,
-                    x4 = p[res[1]].x,
-                    y4 = p[res[1]].y;
-            dx = Math.max(Math.abs(x1 - x4) / 2, 10);
-            dy = Math.max(Math.abs(y1 - y4) / 2, 10);
-            var x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3),
-                    y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3),
-                    x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
-                    y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
-            path = ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
+            path = Raphael.fn._getConnectionPath(p);
         }
 
 
         console.info("path",path);
 
         if (line && line.line2) {
-            //   line.bg && line.bg.attr({path: path});
             line.line2.attr({path: path});
         } else {
             console.info("line",line);
             var color = typeof line == "string" ? line : "#000";
             return {
-                //      bg: bg && bg.split && this.path(path).attr({stroke: bg.split("|")[0], fill: "none", "stroke-width": bg.split("|")[1] || 3}),
                 line2: this.path(path).attr({ fill: "none",stroke:line.split("|")[0],"stroke-width": line.split("|")[1] || 2,"arrow-end":"classic-wide-long"}),
                 from2: obj1,
                 to2: obj2
@@ -862,7 +434,9 @@
         //绘制节点
         var shapes = [
             r.rect(190, 50, 60, 40, 4),
-            r.rect(290, 100, 60, 40, 4)
+            r.rect(290, 100, 60, 40, 4),
+            r.rect(290, 180, 60, 40, 4),
+            r.rect(450, 100, 60, 40, 4)
         ];
 
         //为节点添加样式和事件，并且绘制节点之间的箭头
@@ -879,8 +453,8 @@
         //存储节点间的顺序
 //        connections.push(r.connection(shapes[0], shapes[1], "#5b9bd5"));
         connectionsTest.push(r.connectionTest(shapes[0], shapes[1], "#5b9bd5") );
-//        connections.push(r.connection(shapes[1], shapes[2], "#5b9bd5"));
-//        connections.push(r.connection(shapes[2], shapes[3], "#5b9bd5"));
+        connectionsTest.push(r.connectionTest(shapes[1], shapes[2], "#5b9bd5"));
+        connectionsTest.push(r.connectionTest(shapes[2], shapes[3], "#5b9bd5"));
 
     })
 </script>
