@@ -39,6 +39,16 @@
 <script src="js/raphael.js" type="text/javascript"></script>
 <script type="text/javascript">
 
+    //创建绘图对象
+    var r = Raphael("holder", $(window).width(), $(window).height());
+    //绘制节点
+    var shapes = [
+        r.rect(190, 50, 60, 40, 4),
+        r.rect(290, 100, 60, 40, 4),
+        r.rect(290, 160, 60, 40, 4),
+        r.rect(290, 240, 60, 40, 4)
+    ];
+
     Raphael.fn.connection = function (obj1, obj2, line, bg) {
         if (obj1.line && obj1.from && obj1.to) {
             line = obj1;
@@ -129,6 +139,9 @@
 
     Raphael.fn.connectionTest = function (obj1, obj2, line) {
         if (obj1.line2 && obj1.from2 && obj1.to2) {
+
+            console.info("pathBBox",Raphael.pathBBox(obj1.line2));
+//            console.info("pathObj",obj1.line2);
             line = obj1;
             obj1 = line.from2;
             obj2 = line.to2;
@@ -149,8 +162,8 @@
 
         var diffx = bb1.x - bb2.x,
             diffy = bb1.y - bb2.y;
-        console.info("diffx",diffx);
-        console.info("diffy",diffy);
+//        console.info("diffx",diffx);
+//        console.info("diffy",diffy);
         //obj1在obj2左边
         if(diffx < 0 ){
             if( Math.abs(diffx) > bb1.width){
@@ -263,8 +276,8 @@
 
         //obj1在obj2右边
         if(diffx > 0 ){
-            console.info("diffx", Math.abs(diffx));
-            console.info("bb2.width",bb2.width);
+//            console.info("diffx", Math.abs(diffx));
+//            console.info("bb2.width",bb2.width);
             if( Math.abs(diffx) > bb2.width){
                 path.push("M");
                 path.push(p[2].x);
@@ -381,7 +394,9 @@
         console.info("path",path);
 
         if (line && line.line2) {
+            console.info("line box",line.line2.getBBox());
             line.line2.attr({path: path});
+            console.info("isBBoxIntersect",Raphael.isBBoxIntersect(line.line2.getBBox(), shapes[2].getBBox()));
         } else {
             console.info("line",line);
             var color = typeof line == "string" ? line : "#000";
@@ -404,6 +419,8 @@
 //            console.info("this",this);
 //            this.ox = this.attr("x");
 //            this.oy = this.attr("y");
+
+            console.info("this",this);
             this.ox = this.type == "rect" ? this.attr("x") : this.attr("cx");
             this.oy = this.type == "rect" ? this.attr("y") : this.attr("cy");
             this.animate({ "fill-opacity": .2 }, 500);
@@ -429,22 +446,14 @@
         var up = function () {
             this.animate({ "fill-opacity": 1 }, 500);
         };
-        //创建绘图对象
-        var r = Raphael("holder", $(window).width(), $(window).height());
-        //绘制节点
-        var shapes = [
-            r.rect(190, 50, 60, 40, 4),
-            r.rect(290, 100, 60, 40, 4),
-            r.rect(290, 160, 60, 40, 4),
-            r.rect(290, 240, 60, 40, 4)
-        ];
+
 
         //为节点添加样式和事件，并且绘制节点之间的箭头
         for (var i = 0, ii = shapes.length; i < ii; i++) {
             var color = Raphael.getColor();
             shapes[i].attr({ "fill": color, stroke: color, "fill-opacity": 1, "stroke-width": 2, cursor: "move" });
 //            shapes[i].attr({ "fill": color, stroke: color, "fill-opacity": 1, "stroke-width": 2, cursor: "move" ,"arrow-end":"classic-wide-long","text":"测试"});
-            console.info("shapes[i]",shapes[i]);
+//            console.info("shapes[i]",shapes[i]);
 //            shapes[i].paper.text(shapes[i].attrs.cx,shapes[i].attrs.cy,"测试" + i);
             shapes[i].id = i + 1;
             shapes[i].drag(move, dragger, up);
@@ -456,7 +465,11 @@
         connectionsTest.push(r.connectionTest(shapes[1], shapes[2], "#5b9bd5"));
         connectionsTest.push(r.connectionTest(shapes[2], shapes[3], "#5b9bd5"));
         connectionsTest.push(r.connectionTest(shapes[1], shapes[3], "#5b9bd5"));
-
+        console.info("r",r);
+        console.info("shapes[3]",shapes[3]);
+        var el = r.getElementsByBBox(shapes[3].getBBox());
+        console.info("el",el);
+        console.info(shapes[3].isPointInside(300,250));
     })
 </script>
 </body>
