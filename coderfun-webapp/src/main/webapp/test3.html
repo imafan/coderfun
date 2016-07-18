@@ -139,8 +139,6 @@
 
     Raphael.fn.connectionTest = function (obj1, obj2, line) {
         if (obj1.line2 && obj1.from2 && obj1.to2) {
-
-            console.info("pathBBox",Raphael.pathBBox(obj1.line2));
 //            console.info("pathObj",obj1.line2);
             line = obj1;
             obj1 = line.from2;
@@ -400,8 +398,10 @@
         } else {
             console.info("line",line);
             var color = typeof line == "string" ? line : "#000";
+            var tempPath = this.path(path).attr({ fill: "none",stroke:line.split("|")[0],"stroke-width": line.split("|")[1] || 2,"arrow-end":"classic-wide-long"});
+
             return {
-                line2: this.path(path).attr({ fill: "none",stroke:line.split("|")[0],"stroke-width": line.split("|")[1] || 2,"arrow-end":"classic-wide-long"}),
+                line2: tempPath,
                 from2: obj1,
                 to2: obj2
             };
@@ -468,8 +468,6 @@
         console.info("r",r);
         console.info("shapes[3]",shapes[3]);
         var el = r.getElementsByBBox(shapes[3].getBBox());
-        console.info("el",el);
-        console.info(shapes[3].isPointInside(300,250));
     })
 </script>
 </body>
